@@ -1,0 +1,56 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <link rel="stylesheet" href="styles.css" type="text/css">
+    <link rel="stylesheet" href="custom-select.css">
+    <script src="https://kit.fontawesome.com/3a05c41217.js"></script>
+</head>
+<body>
+    <main>
+        <div id="playerSelectionModal">
+            <div id="playerSelection">
+                <span class="closePlayerSelection"><i class="fa fa-times"></i></span>
+                <h1>Play With A Friend!</h1>
+                <div>
+                    <label for="player">Choose Your Symbol:</label>
+                    <div class="custom-select">
+                        <select id="player">
+                            <option value="0">Select:</option>
+                            <option value="1">x</option>
+                            <option value="2">o</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <div id="error"></div>
+                    <button id="startGame">Start Game</button>
+                </div>
+            </div>
+        </div>
+        <div class="board">
+            <button id="00" class="cell"></button>
+            <button id="01" class="cell"></button>
+            <button id="02" class="cell"></button>
+            <button id="10" class="cell"></button>
+            <button id="11" class="cell"></button>
+            <button id="12" class="cell"></button>
+            <button id="20" class="cell"></button>
+            <button id="21" class="cell"></button>
+            <button id="22" class="cell"></button>
+        </div>
+        <div id="messageModal">
+            <div>
+                <div id="message"></div>
+                <div>
+                    <button id="restart">Restart</button>
+                    <button id="tryAgain">Try Again</button>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="script.js"></script>
+    <script src="custom-select.js"></script>
+</body>
+</html> 
