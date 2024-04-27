@@ -47,7 +47,11 @@ function playerMove(row, col) {
     board[row][col] = currentPlayer;
     updateCell(row, col, currentPlayer);
 
-    displayMessage();
+    if (checkWinner(playerX) || checkWinner(playerO) || checkDraw()) {
+      displayMessage();
+    } else {
+      currentPlayer = currentPlayer === playerX ? playerO : playerX;
+    }
   }
 }
 
@@ -100,7 +104,15 @@ function checkDraw() {
 // Reset the game
 function resetGame() {
   resetBoard();
-  startGame();
+
+  const playerSymbol = document.getElementById('player').value;
+  if (playerSymbol === '0') {
+    currentPlayer = null;
+  } else if (playerSymbol === '1') {
+    currentPlayer = playerX;
+  } else if (playerSymbol === '2') {
+    currentPlayer = playerO;
+  }
 }
 
 // Add event listeners to cells
@@ -109,12 +121,7 @@ cells.forEach((cell, index) => {
   const row = Math.floor(index / 3);
   const col = index % 3;
   cell.addEventListener('click', () => {
-    // Check if the game is over before making a move
-    if (checkWinner(playerX) || checkWinner(playerO) || checkDraw()) {
-      resetGame();
-    } else {
-      playerMove(row, col);
-    }
+    playerMove(row, col);
   });
 });
 
@@ -166,26 +173,20 @@ function playerSelection() {
   }
 }
 
-function displayMessage () {
+function displayMessage() {
   const messageModal = document.getElementById('messageModal');
 
-  // Check for a winner or a draw
-  if (checkWinner(playerX) || checkWinner(playerO) || checkDraw()) {
-    setTimeout(() => {
-      messageModal.style.display = "flex";
-    }, 300);
-  } else {
-    // Switch to the other player
-    currentPlayer = currentPlayer === playerX ? playerO : playerX;
-  }
-  
+  setTimeout(() => {
+    messageModal.style.display = "flex";
+  }, 300);
+
   document.getElementById('restart').onclick = () => {
     messageModal.style.display = "none";
     playerSelection();
   }
   document.getElementById('tryAgain').onclick = () => {
     messageModal.style.display = "none";
-    resetBoard();
+    resetGame(); // Call resetGame instead of resetBoard
   }
 
   // Check for a winner or a draw
