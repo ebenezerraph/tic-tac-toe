@@ -1,83 +1,70 @@
 // Game board
-let board = [
+const board = [
   ['', '', ''],
   ['', '', ''],
   ['', '', '']
-];
-
-// Player symbols
-const playerX = document.createElement('i');
-playerX.className = 'fa fa-times';
-playerX.value = '<i class="fa fa-times"></i>';
-
-const playerO = document.createElement('i');
-playerO.className = 'fa fa-circle-o';
-playerO.value = '<i class="fa fa-circle-o"></i>';
-
-// Current player
-let currentPlayer;
-
-// Start the game
-function startGame() {
+ ];
+ 
+ // Player symbols
+ const playerX = createPlayerIcon('fa fa-times');
+ const playerO = createPlayerIcon('fa fa-circle-o');
+ 
+ // Current player
+ let currentPlayer;
+ let gameStarted = false;
+ 
+ // Start the game
+ function startGame() {
   const playerSymbol = document.getElementById('player').value;
-   if (playerSymbol === '0') {
-    currentPlayer = null;
-   } else if (playerSymbol === '1') {
-    currentPlayer = playerX;
-  } else if (playerSymbol === '2') {
-    currentPlayer = playerO;
-  }
+  currentPlayer = getPlayerSymbol(playerSymbol);
   resetBoard();
-}
-
-// Reset the board
-function resetBoard() {
-  board = [
-    ['', '', ''],
-    ['', '', ''],
-    ['', '', '']
-  ];
+  gameStarted = true;
+ }
+ 
+ // Reset the board
+ function resetBoard() {
+  board.forEach(row => row.fill(''));
   const cells = document.querySelectorAll('.cell');
   cells.forEach(cell => cell.innerHTML = '');
-}
-
-// Handle player move
-function playerMove(row, col) {
+ }
+ 
+ // Handle player move
+ function playerMove(row, col) {
   if (board[row][col] === '') {
     board[row][col] = currentPlayer;
     updateCell(row, col, currentPlayer);
-
+ 
     if (checkWinner(playerX) || checkWinner(playerO) || checkDraw()) {
       displayMessage();
     } else {
       currentPlayer = currentPlayer === playerX ? playerO : playerX;
     }
   }
-}
-
-// Update a cell with the player symbol
-function updateCell(row, col, symbol) {
+ }
+ 
+ // Update a cell with the player symbol
+ function updateCell(row, col, symbol) {
   const cell = document.getElementById(`${row}${col}`);
   cell.innerHTML = '';
   cell.appendChild(symbol.cloneNode(true));
-}
-
-// Check for a winner
-function checkWinner(playerSymbol) {
+ }
+ 
+ // Check for a winner
+ function checkWinner(playerSymbol) {
   // Check rows
   for (let i = 0; i < 3; i++) {
-    if (board[i][0] === playerSymbol && board[i][1] === playerSymbol && board[i][2] === playerSymbol) {
+    if (board[i].every(cell => cell === playerSymbol)) {
       return true;
     }
   }
-
+ 
   // Check columns
   for (let i = 0; i < 3; i++) {
-    if (board[0][i] === playerSymbol && board[1][i] === playerSymbol && board[2][i] === playerSymbol) {
+    if (board.every(row => row[i] === playerSymbol)) {
       return true;
     }
   }
-
+ 
   // Check diagonals
   if (board[0][0] === playerSymbol && board[1][1] === playerSymbol && board[2][2] === playerSymbol) {
     return true;
@@ -85,122 +72,96 @@ function checkWinner(playerSymbol) {
   if (board[0][2] === playerSymbol && board[1][1] === playerSymbol && board[2][0] === playerSymbol) {
     return true;
   }
-
+ 
   return false;
-}
-
-// Check for a draw
-function checkDraw() {
-  for (let i = 0; i < 3; i++) {
-    for (let j = 0; j < 3; j++) {
-      if (board[i][j] === '') {
-        return false;
-      }
-    }
-  }
-  return true;
-}
-
-// Reset the game
-function resetGame() {
+ }
+ 
+ // Check for a draw
+ function checkDraw() {
+  return board.every(row => row.every(cell => cell !== ''));
+ }
+ 
+ // Reset the game
+ function resetGame() {
   resetBoard();
-
-  const playerSymbol = document.getElementById('player').value;
-  if (playerSymbol === '0') {
-    currentPlayer = null;
-  } else if (playerSymbol === '1') {
-    currentPlayer = playerX;
-  } else if (playerSymbol === '2') {
-    currentPlayer = playerO;
-  }
-}
-
-// Add event listeners to cells
-const cells = document.querySelectorAll('.cell');
-cells.forEach((cell, index) => {
+  currentPlayer = getPlayerSymbol(document.getElementById('player').value);
+ }
+ 
+ // Add event listeners to cells
+ const cells = document.querySelectorAll('.cell');
+ cells.forEach((cell, index) => {
   const row = Math.floor(index / 3);
   const col = index % 3;
-  cell.addEventListener('click', () => {
-    playerMove(row, col);
-  });
-});
-
-function playerSelection() {
+  cell.addEventListener('click', () => playerMove(row, col));
+ });
+ 
+ // Player selection modal
+ function playerSelection() {
   startGame();
   const playerSelectionModal = document.getElementById('playerSelectionModal');
   const playerSelectionSpan = document.getElementsByClassName('closePlayerSelection')[0];
-
+ 
   playerSelectionModal.style.display = "flex";
-  playerSelectionSpan.onclick = () => {
+  playerSelectionSpan.onclick = () => toggleModal(playerSelectionModal);
+  window.onclick = (event) => event.target === playerSelectionModal && toggleModal(playerSelectionModal);
+  document.addEventListener('keydown', (event) => event.key === 'Escape' && toggleModal(playerSelectionModal));
+  document.getElementById('startGame').onclick = () => toggleModal(playerSelectionModal);
+ 
+  function toggleModal(modal) {
     if (currentPlayer !== null) {
-      playerSelectionModal.style.display = "none";
-    } else if (currentPlayer == null) {
+      modal.style.display = "none";
+    } else {
       document.getElementById('error').innerHTML = "Choose your symbol";
-      playerSelectionModal.style.display = "flex";
+      modal.style.display = "flex";
     }
   }
-
-  window.onclick = (event) => {
-    if (event.target === playerSelectionModal) {
-      if (currentPlayer !== null) {
-        playerSelectionModal.style.display = "none";
-      } else if (currentPlayer == null) {
-        document.getElementById('error').innerHTML = "Choose your symbol";
-        playerSelectionModal.style.display = "flex";
-      }
-    }
-  }
-
-  const escape = (event) => {
-    if (event.key === 'Escape') {
-      if (currentPlayer !== null) {
-        playerSelectionModal.style.display = "none";
-      } else if (currentPlayer == null) {
-        document.getElementById('error').innerHTML = "Choose your symbol";
-        playerSelectionModal.style.display = "flex";
-      }
-    }
-  };
-  document.addEventListener('keydown', escape);
-
-  document.getElementById('startGame').onclick = () => {
-    if (currentPlayer !== null) {
-      playerSelectionModal.style.display = "none";
-    } else if (currentPlayer == null) {
-      document.getElementById('error').innerHTML = "Choose your symbol";
-      playerSelectionModal.style.display = "flex";
-    }
-  }
-}
-
-function displayMessage() {
+ }
+ 
+ // Display message modal
+ function displayMessage() {
   const messageModal = document.getElementById('messageModal');
-
+  const message = document.getElementById('message');
+ 
   setTimeout(() => {
     messageModal.style.display = "flex";
+ 
+    if (checkWinner(playerX) || checkWinner(playerO)) {
+      message.innerHTML = `${currentPlayer.value} wins!`;
+    } else if (checkDraw()) {
+      message.textContent = 'It is a tie!';
+    }
   }, 300);
-
+ 
   document.getElementById('restart').onclick = () => {
     messageModal.style.display = "none";
     playerSelection();
-  }
+  };
   document.getElementById('tryAgain').onclick = () => {
     messageModal.style.display = "none";
-    resetGame(); // Call resetGame instead of resetBoard
+    resetGame();
+  };
+ }
+ 
+ // Helper functions
+ function createPlayerIcon(className) {
+  const icon = document.createElement('i');
+  icon.className = className;
+  icon.value = `<i class="${className}"></i>`;
+  return icon;
+ }
+ 
+ function getPlayerSymbol(playerSymbol) {
+  if (playerSymbol === '1') {
+    return playerX;
+  } else if (playerSymbol === '2') {
+    return playerO;
+  } else {
+    return null;
   }
-
-  // Check for a winner or a draw
-  if (checkWinner(playerX) || checkWinner(playerO)) {
-    document.getElementById('message').innerHTML = `${currentPlayer.value} wins!`;
-  } else if (checkDraw()) {
-    document.getElementById('message').textContent = 'It is a tie!';
-  }
-}
-
-playerSelection();
-
-// Utility function to add event listener
-function addEventListenerWithOptions(target, type, handler, options = false) {
+ }
+ 
+ // Utility function to add event listener
+ function addEventListenerWithOptions(target, type, handler, options = false) {
   if (target.addEventListener) {
     target.addEventListener(type, handler, options);
   } else if (target.attachEvent) {
@@ -208,22 +169,22 @@ function addEventListenerWithOptions(target, type, handler, options = false) {
   } else {
     target[`on${type}`] = handler;
   }
-}
-
-// Function to initialize custom select
-function initCustomSelect(selectEl) {
+ }
+ 
+ // Function to initialize custom select
+ function initCustomSelect(selectEl) {
   const customSelectContainer = selectEl.parentNode;
   const selectedOption = document.createElement("div");
   const optionsContainer = document.createElement("div");
   const arrow = document.createElement("i");
-
+ 
   selectedOption.classList.add("select-selected");
   selectedOption.textContent = selectEl.options[selectEl.selectedIndex].text;
   arrow.classList.add("arrow", "fas", "fa-caret-down");
   selectedOption.appendChild(arrow);
-
+ 
   optionsContainer.classList.add("select-items", "select-hide");
-
+ 
   [...selectEl.options].slice(1).forEach((option, index) => {
     const optionEl = document.createElement("div");
     optionEl.textContent = option.text;
@@ -235,17 +196,13 @@ function initCustomSelect(selectEl) {
       optionsContainer.classList.add("select-hide");
       selectedOption.classList.remove("select-arrow-active");
       selectedOption.appendChild(arrow);
-
+ 
       // Update currentPlayer based on the selected option
-      if (option.value === '1') {
-        currentPlayer = playerX;
-      } else if (option.value === '2') {
-        currentPlayer = playerO;
-      }
-
+      currentPlayer = getPlayerSymbol(option.value);
+ 
       // Remove the error message when a symbol is selected
       document.getElementById('error').innerHTML = "";
-
+ 
       // Start the game if not already started
       if (!gameStarted) {
         startGame();
@@ -254,22 +211,25 @@ function initCustomSelect(selectEl) {
     });
     optionsContainer.appendChild(optionEl);
   });
-
+ 
   customSelectContainer.appendChild(selectedOption);
   customSelectContainer.appendChild(optionsContainer);
-
+ 
   addEventListenerWithOptions(selectedOption, "click", () => {
     optionsContainer.classList.toggle("select-hide");
     selectedOption.classList.toggle("select-arrow-active");
   });
-
+ 
   addEventListenerWithOptions(document, "click", (event) => {
     if (!customSelectContainer.contains(event.target)) {
       optionsContainer.classList.add("select-hide");
       selectedOption.classList.remove("select-arrow-active");
     }
   });
-}
-
-// Initialize custom select for all select elements
-document.querySelectorAll(".custom-select select").forEach(initCustomSelect);
+ }
+ 
+ // Initialize custom select for all select elements
+ document.querySelectorAll(".custom-select select").forEach(initCustomSelect);
+ 
+ // Start the game
+ playerSelection();

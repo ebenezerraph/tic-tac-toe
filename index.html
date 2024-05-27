@@ -1,15 +1,17 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tic Tac Toe</title>
-    <link rel="stylesheet" href="styles.css" type="text/css">
-    <script src="https://kit.fontawesome.com/3a05c41217.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://kit.fontawesome.com/3a05c41217.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <main>
-        <div id="playerSelectionModal">
-            <div id="playerSelection">
+        <!-- Player Selection Modal -->
+        <div id="playerSelectionModal" class="modal">
+            <div id="playerSelection" class="modal-content">
                 <span class="closePlayerSelection"><i class="fa fa-times"></i></span>
                 <h1>Play With A Friend!</h1>
                 <div>
@@ -17,17 +19,18 @@
                     <div class="custom-select">
                         <select id="player">
                             <option value="0">Select:</option>
-                            <option value="1">x</option>
-                            <option value="2">o</option>
+                            <option value="1">X</option>
+                            <option value="2">O</option>
                         </select>
                     </div>
                 </div>
                 <div>
-                    <div id="error"></div>
-                    <button id="startGame">Start Game</button>
+                    <div id="error" class="error-message"></div>
+                    <button id="startGame" class="button">Start Game</button>
                 </div>
             </div>
         </div>
+        <!-- Game Board -->
         <div class="board">
             <button id="00" class="cell"></button>
             <button id="01" class="cell"></button>
@@ -39,16 +42,17 @@
             <button id="21" class="cell"></button>
             <button id="22" class="cell"></button>
         </div>
-        <div id="messageModal">
-            <div>
+        <!-- Message Modal -->
+        <div id="messageModal" class="modal">
+            <div class="modal-content">
                 <div id="message"></div>
-                <div>
-                    <button id="restart">Restart</button>
-                    <button id="tryAgain">Try Again</button>
+                <div class="modal-buttons">
+                    <button id="restart" class="button">Restart</button>
+                    <button id="tryAgain" class="button">Try Again</button>
                 </div>
             </div>
         </div>
     </main>
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </body>
-</html> 
+</html>
