@@ -25,9 +25,9 @@ footer {
 }
 
 footer button {
-  background-color: orange;
-  color: black;
-  border: none;
+  border: 1px solid orange;
+  background-color: black;
+  color: orange;
   height: 34px;
   width: 105px;
   box-sizing: border-box;
@@ -37,9 +37,8 @@ footer button {
 }
 
 footer button:hover {
-  border: 1px solid orange;
-  background-color: black;
-  color: orange;
+  background-color: orange;
+  color: black;
   transition: all ease 0.3s;
 }
 
