@@ -9,6 +9,40 @@ body {
   background-color: orange;
 }
 
+footer {
+  width: 100%;
+  height: 50px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  color: orange;
+  background-color: black;
+  padding: 5px 10px;
+  align-items: center;
+}
+
+footer button {
+  background-color: orange;
+  color: black;
+  border: none;
+  height: 34px;
+  width: 105px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  padding: 8px;
+  cursor: pointer;
+}
+
+footer button:hover {
+  border: 1px solid orange;
+  background-color: black;
+  color: orange;
+  transition: all ease 0.3s;
+}
+
 /* Game Board Styles */
 .board {
   background-color: black;
