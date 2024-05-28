@@ -100,10 +100,19 @@ function playerSelection() {
 startGame();
 const playerSelectionModal = document.getElementById('playerSelectionModal');
 const playerSelectionSpan = document.getElementsByClassName('closePlayerSelection')[0];
+const footerLink = document.querySelector('.footer-link'); // Footer link element
 
 playerSelectionModal.style.display = "flex";
 playerSelectionSpan.onclick = () => toggleModal(playerSelectionModal);
-window.onclick = (event) => event.target === playerSelectionModal && toggleModal(playerSelectionModal);
+window.onclick = (event) => {
+  // Ensure the click is not on the footer link or its children
+  if (event.target === footerLink || footerLink.contains(event.target)) {
+    return; // Do nothing if the footer link is clicked
+  }
+  if (event.target === playerSelectionModal) {
+    toggleModal(playerSelectionModal);
+  }
+};
 document.addEventListener('keydown', (event) => event.key === 'Escape' && toggleModal(playerSelectionModal));
 document.getElementById('startGame').onclick = () => toggleModal(playerSelectionModal);
 
@@ -227,11 +236,6 @@ addEventListenerWithOptions(document, "click", (event) => {
   }
 });
 }
-
-// Link initialzation
-document.querySelector('.footer-link').addEventListener('click', (e) => {
-console.log('Footer link clicked');
-});
 
 // Initialize custom select for all select elements
 document.querySelectorAll(".custom-select select").forEach(initCustomSelect);
