@@ -39,6 +39,14 @@ footer button:hover {
   transition: all ease 0.3s;
 }
 
+footer a:hover {
+  text-decoration: none;
+}
+
+footer a:visited {
+ color: inherit;
+}
+
 /* Game Board Styles */
 .board {
   background-color: black;
