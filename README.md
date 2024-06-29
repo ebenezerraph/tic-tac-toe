@@ -1,7 +1,7 @@
 # Tic-tac-toe
 
 ## Description
-This is a classic Tic-tac-toe game built with HTML, CSS, and JavaScript. Players can choose their symbols (X or O) and take turns placing them on a 3x3 grid. The game ends when one player gets three of their symbols in a row (horizontally, vertically, or diagonally) or when the game is a draw.
+This is a classic tic-tac-toe game built with HTML, CSS, and JavaScript. Players can choose their symbols (X or O) and take turns placing them on a 3x3 grid. The game ends when one player gets three of their symbols in a row (horizontally, vertically, or diagonally) or when the game is a draw.
 
 ## Features
 - Player can choose their symbol (X or O)
@@ -12,7 +12,7 @@ This is a classic Tic-tac-toe game built with HTML, CSS, and JavaScript. Players
 - Responsive design for various screen sizes
 
 ## Live Site
-You can play the game live [here](https://ebenezerraph.github.io/tic-tac-toe).
+You can play the live game [here](https://ebenezerraph.github.io/tic-tac-toe).
 
 ## Usage
 1. Open the game in your web browser.
