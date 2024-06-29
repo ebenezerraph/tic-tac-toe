@@ -6,7 +6,6 @@ This is a classic tic-tac-toe game built with HTML, CSS, and JavaScript. Players
 ## Live Site
 You can play the live game [here](https://ebenezerraph.github.io/tic-tac-toe).
 
-
 ## Features
 - Player can choose their symbol (X or O)
 - Interactive game board with click events
