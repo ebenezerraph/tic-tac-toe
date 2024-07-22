@@ -29,7 +29,7 @@ footer p {
 }
 
 footer button {
-  border: 2px solid orange;
+  border: 1px solid orange;
   background-color: black;
   color: orange;
   box-sizing: border-box;
